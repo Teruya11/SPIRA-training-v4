@@ -50,9 +50,8 @@ Alternatively, execute:
 poetry run pytest
 ```
 
-## Authors
-- [Roberto Bolgheroni](https://github.com/bolgheroni)
-- [Lucas Quaresma](https://github.com/lucasqml)
+## Author
+- [Daiki Teruya Inoue](https://github.com/Teruya11)
 
 ## Acknowledgements
 - [Renato Cordeiro Ferreira](https://linktr.ee/renatocf)
