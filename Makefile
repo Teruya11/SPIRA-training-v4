@@ -1,6 +1,9 @@
 app:
 	docker compose up app
 
+feature-engineering:
+	docker compose run --rm feature-engineering
+
 unit-tests: 
 	docker compose run --rm unit-tests
 

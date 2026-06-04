@@ -11,6 +11,7 @@ from src.spira_training.shared.core.audio_processor_factory import (
     create_audio_processor,
 )
 from src.spira_training.shared.core.interfaces.random import Random
+from src.spira_training.shared.core.models.dataset import Dataset, Label
 from src.spira_training.shared.core.models.valid_path import ValidPath
 from src.spira_training.shared.ports.audios_repository import AudiosRepository
 from src.spira_training.shared.ports.dataset_repository import DatasetRepository
@@ -44,7 +45,7 @@ class FeatureEngineeringService:
             self.config.audio_processor, self.pytorch_audio_factory
         )
 
-        dataset = self._generate_dataset()
+        dataset = self._generate_dataset(patients_inputs, controls_inputs)
 
         await self.dataset_repository.save_dataset(dataset, save_dataset_path)  # type: ignore
 
@@ -74,6 +75,11 @@ class FeatureEngineeringService:
     def _load_audio_from_paths(self, path: ValidPath):
         return self.audios_repository.get_audio(str(path))
 
-    def _generate_dataset(self):
-        pass
-        # TODO - generate dataset
+    def _generate_dataset(self, patients_inputs, controls_inputs):
+        """Generate dataset by combining patient (positive) and control (negative) audio samples."""
+        features = patients_inputs + controls_inputs
+        labels = (
+            [Label.POSITIVE] * len(patients_inputs)
+            + [Label.NEGATIVE] * len(controls_inputs)
+        )
+        return Dataset(features=features, labels=labels)

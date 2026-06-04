@@ -9,6 +9,15 @@ services:
       - .:/app
       - /app/.venv
     
+  feature-engineering:
+    image: spira-training:latest
+    build:
+      context: .
+    command: "poetry run python src/spira_training/apps/feature_engineering/feature_engineering.py"
+    volumes:
+      - .:/app
+      - /app/.venv
+
   unit-tests:
     image: spira-training:latest
     build:

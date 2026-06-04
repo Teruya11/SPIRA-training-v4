@@ -1,0 +1,20 @@
+{
+  "feature_engineering_config": {
+    "audio": {
+      "dataset_paths": {
+        "patients_csv": "data/patients.csv",
+        "controls_csv": "data/controls.csv",
+        "noises_csv": "data/noises.csv"
+      },
+      "normalize": true
+    },
+    "audio_processor": {
+      "hop_length": 512
+    },
+    "audio_feature_transformer": {
+      "n_mels": 128,
+      "n_fft": 2048,
+      "hop_length": 512
+    }
+  }
+}
