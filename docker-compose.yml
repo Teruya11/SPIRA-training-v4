@@ -13,6 +13,8 @@ services:
     image: spira-training:latest
     build:
       context: .
+    environment:
+      - PYTHONPATH=/app
     command: "poetry run python src/spira_training/apps/feature_engineering/feature_engineering.py"
     volumes:
       - .:/app

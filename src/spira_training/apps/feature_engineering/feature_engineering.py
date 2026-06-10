@@ -22,7 +22,7 @@ from src.spira_training.shared.core.services.randomizer import Randomizer
 
 
 async def main():
-    config = JsonConfigLoader().load_feature_engineering_config("path/to/config")
+    config = JsonConfigLoader().load_feature_engineering_config("config.json")
 
     randomizer = Randomizer(seed=42).initialize_random(seed=42)
     dataset_repository = ParquetDatasetRepository()

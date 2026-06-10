@@ -9,12 +9,62 @@
       "normalize": true
     },
     "audio_processor": {
-      "hop_length": 512
+      "feature_type": "mfcc",
+      "hop_length": 512,
+      "mfcc": {
+        "sample_rate": 16000,
+        "num_mels": 40,
+        "num_mfcc": 13,
+        "log_mels": true,
+        "n_fft": 512,
+        "win_length": 400
+      },
+      "spectrogram": {
+        "sample_rate": 16000,
+        "num_mels": 40,
+        "mel_fmin": 0.0,
+        "mel_fmax": 8000.0,
+        "num_mfcc": 13,
+        "log_mels": true,
+        "n_fft": 512,
+        "num_freq": 257,
+        "win_length": 400
+      },
+      "melspectrogram": {
+        "sample_rate": 16000,
+        "num_mels": 40,
+        "mel_fmin": 0.0,
+        "mel_fmax": 8000.0,
+        "num_mfcc": 13,
+        "log_mels": true,
+        "n_fft": 512,
+        "num_freq": 257,
+        "win_length": 400
+      }
     },
     "audio_feature_transformer": {
-      "n_mels": 128,
-      "n_fft": 2048,
-      "hop_length": 512
+      "options": {
+        "use_noise": true,
+        "use_overlapping": true,
+        "use_padding": true,
+        "use_mixture": true
+      },
+      "audio_feature_transformers": {
+        "noisy_audio": {
+          "num_noise_control": 5,
+          "num_noise_patient": 5,
+          "noise_max_amp": 0.5,
+          "noise_min_amp": 0.1
+        },
+        "overlapped_audio": {
+          "window_length": 400,
+          "step_size": 160
+        },
+        "mixed_audio": {
+          "alpha": 0.5,
+          "beta": 0.5
+        }
+      }
     }
   }
 }
