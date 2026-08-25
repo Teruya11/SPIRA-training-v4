@@ -9,22 +9,26 @@ from src.spira_training.shared.core.services.randomizer import Randomizer
 from src.spira_training.shared.adapters.filesystem_path_validator import (
     FilesystemPathValidator,
 )
-from tests.unit.fakes.fake_dataset_repository import FakeDatasetRepository
+from src.spira_training.shared.adapters.csv_file_reader import CSVFileReader
+from src.spira_training.shared.adapters.parquet_dataset_repository import (
+    ParquetDatasetRepository,
+)
+from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.simple_pytorch_audio_factory import (
+    SimplePytorchTensorFactory,
+)
 from tests.unit.fakes.fake_audios_repository import FakeAudiosRepository
-from tests.unit.fakes.fake_file_reader import FakeFileReader
-from tests.unit.fakes.fake_pytorch_audio_factory import FakePytorchTensorFactory
 
 
 async def main():
     config = JsonConfigLoader().load_feature_engineering_config("path/to/config")
 
-    # TODO - Instantiate the real dependencies
     randomizer = Randomizer(seed=42).initialize_random(seed=42)
-    dataset_repository = FakeDatasetRepository()
+    dataset_repository = ParquetDatasetRepository()
+    # No production AudiosRepository implementation exists yet.
     audios_repository = FakeAudiosRepository()
-    file_reader = FakeFileReader()
+    file_reader = CSVFileReader()
     path_validator = FilesystemPathValidator()
-    pytorch_audio_factory = FakePytorchTensorFactory()
+    pytorch_audio_factory = SimplePytorchTensorFactory()
 
     service = FeatureEngineeringService(
         config=config,
