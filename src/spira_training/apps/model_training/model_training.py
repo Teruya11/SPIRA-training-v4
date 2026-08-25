@@ -1,13 +1,17 @@
 import asyncio
 from pydantic import BaseModel
+from src.spira_training.shared.adapters.parquet_dataset_repository import (
+    ParquetDatasetRepository,
+)
+from src.spira_training.shared.adapters.filesystem_trained_models_repository import (
+    FilesystemTrainedModelsRepository,
+)
 from src.spira_training.shared.adapters.sk_dataset_splitter import SkDatasetSplitter
 from src.spira_training.shared.core.models.path import Path
 from src.spira_training.shared.core.services.model_training_service import (
     ModelTrainingService,
 )
-from tests.unit.fakes.fake_dataset_repository import FakeDatasetRepository
 from tests.unit.fakes.fake_model_trainer import FakeModelTrainer
-from tests.unit.fakes.fake_trained_models_repository import FakeTrainedModelsRepository
 
 
 class ModelTrainingConfig(BaseModel):
@@ -23,10 +27,10 @@ async def main():
     )
 
     # TODO  instantiate the dependencies using configs
-    dataset_repository = FakeDatasetRepository()
+    dataset_repository = ParquetDatasetRepository()
     dataset_splitter = SkDatasetSplitter()
     model_trainer = FakeModelTrainer()
-    trained_models_repository = FakeTrainedModelsRepository()
+    trained_models_repository = FilesystemTrainedModelsRepository()
 
     service = ModelTrainingService(
         dataset_repository=dataset_repository,
