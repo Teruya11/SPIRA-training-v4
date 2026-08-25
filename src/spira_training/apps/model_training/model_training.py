@@ -7,6 +7,12 @@ from src.spira_training.shared.adapters.filesystem_trained_models_repository imp
     FilesystemTrainedModelsRepository,
 )
 from src.spira_training.shared.adapters.sk_dataset_splitter import SkDatasetSplitter
+from src.spira_training.shared.adapters.parquet_dataset_repository import (
+    ParquetDatasetRepository,
+)
+from src.spira_training.shared.adapters.filesystem_trained_models_repository import (
+    FilesystemTrainedModelsRepository,
+)
 from src.spira_training.shared.core.models.path import Path
 from src.spira_training.shared.core.services.model_training_service import (
     ModelTrainingService,
@@ -26,7 +32,7 @@ async def main():
         trained_model_path=Path("trained_model_path"),
     )
 
-    # TODO  instantiate the dependencies using configs
+    # TODO instantiate the dependencies using configs
     dataset_repository = ParquetDatasetRepository()
     dataset_splitter = SkDatasetSplitter()
     model_trainer = FakeModelTrainer()
