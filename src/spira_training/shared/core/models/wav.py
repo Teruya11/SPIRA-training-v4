@@ -36,6 +36,6 @@ class Wav:
 
 def concatenate_wavs(wavs: List[Wav]) -> Wav:
     if not wavs:
-        return None
+        raise ValueError("At least one wav is required")
 
     return reduce(lambda acc, wav: acc.concatenate(wav), wavs)

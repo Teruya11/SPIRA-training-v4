@@ -32,7 +32,7 @@ class AverageMultipleLossCalculator(PytorchLossCalculator):
             for prediction, label in zip(predictions, labels)
         ]
         loss_tensor = sum(losses) / len(losses)
-        return Loss(value=loss_tensor.tolist())
+        return Loss(value=float(torch.as_tensor(loss_tensor).item()))
 
     def recalculate_weights(self):
         self.single_loss_calculator.recalculate_weights()
@@ -143,4 +143,4 @@ class BalancedAverageMultipleLossCalculator(PytorchLossCalculator):
             sum(average_loss_by_label.values()) / len(average_loss_by_label)
         )
 
-        return Loss(value=loss_tensor.tolist())
+        return Loss(value=float(loss_tensor.item()))

@@ -12,5 +12,12 @@ class CSVFileReader(FileReader):
 
     # We are assuming that the first column of the CSV contains the data
     def validate_dataframe(self, df: pd.DataFrame) -> None:
-        if df.empty or df[0].isnull().any() or (df[0].str.strip() == '').any():
+        if df.empty:
+            raise ValueError("A primeira coluna do CSV contém valores nulos ou vazios.")
+
+        first_column = df.iloc[:, 0]
+        if first_column.isnull().any():
+            raise ValueError("A primeira coluna do CSV contém valores nulos ou vazios.")
+
+        if first_column.astype("string").str.strip().eq("").any():
             raise ValueError("A primeira coluna do CSV contém valores nulos ou vazios.")

@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Self
 import numpy as np
 
 class Random(ABC):
@@ -7,5 +8,5 @@ class Random(ABC):
         self.random_state = np.random.RandomState(self.seed)
 
     @abstractmethod
-    def initialize_random(self, seed):
+    def initialize_random(self, seed) -> Self:
         pass

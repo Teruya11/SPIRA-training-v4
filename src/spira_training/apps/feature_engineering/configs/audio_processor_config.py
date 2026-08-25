@@ -26,6 +26,7 @@ class SpectrogramAudioProcessorConfig(BaseModel):
     n_fft: int
     num_freq: int
     win_length: int
+    power: float = 2.0
 
 class MelspectrogramAudioProcessorConfig(BaseModel):
     sample_rate: int
