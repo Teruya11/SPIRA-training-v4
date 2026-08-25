@@ -2,10 +2,11 @@ from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch
     PytorchOptimizer,
 )
 import torch
+from torch.optim.optimizer import Optimizer
 
 
 class SimplePytorchOptimizer(PytorchOptimizer):
-    def __init__(self, torch_optimizer: torch.optim.Optimizer):
+    def __init__(self, torch_optimizer: Optimizer):
         self.torch_optimizer = torch_optimizer
 
     def zero_grad(self):

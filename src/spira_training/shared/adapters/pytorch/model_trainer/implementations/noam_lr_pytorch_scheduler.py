@@ -6,10 +6,11 @@ from spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_sch
 
 from .simple_pytorch_optimizer import SimplePytorchOptimizer
 import torch
+from torch.optim.optimizer import Optimizer
 
 
 class LrPytorchScheduler(torch.optim.lr_scheduler.LRScheduler):
-    def __init__(self, optimizer: torch.optim.Optimizer):
+    def __init__(self, optimizer: Optimizer):
         super().__init__(optimizer)
 
     def get_lr(self):

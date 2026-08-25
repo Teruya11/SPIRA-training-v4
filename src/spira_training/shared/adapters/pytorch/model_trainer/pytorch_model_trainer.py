@@ -15,6 +15,7 @@ from src.spira_training.shared.ports.train_logger import TrainLogger
 
 
 from src.spira_training.shared.core.models.dataset import Dataset
+from src.spira_training.shared.core.models.step import Step
 
 from .interfaces.pytorch_dataloader_factory import PytorchDataloaderFactory
 from .interfaces.pytorch_optimizer import PytorchOptimizer
@@ -113,6 +114,6 @@ class PytorchModelTrainer(ModelTrainer):
         self._checkpoint_manager.update_and_save_checkpoint(
             checkpoint=Checkpoint(
                 loss=loss,
-                step=step,
+                step=Step(step),
             )
         )

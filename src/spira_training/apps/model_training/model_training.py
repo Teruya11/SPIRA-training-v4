@@ -1,4 +1,6 @@
 import asyncio
+from pathlib import Path as PathLibPath
+
 from pydantic import BaseModel
 from src.spira_training.shared.adapters.parquet_dataset_repository import (
     ParquetDatasetRepository,
@@ -7,12 +9,6 @@ from src.spira_training.shared.adapters.filesystem_trained_models_repository imp
     FilesystemTrainedModelsRepository,
 )
 from src.spira_training.shared.adapters.sk_dataset_splitter import SkDatasetSplitter
-from src.spira_training.shared.adapters.parquet_dataset_repository import (
-    ParquetDatasetRepository,
-)
-from src.spira_training.shared.adapters.filesystem_trained_models_repository import (
-    FilesystemTrainedModelsRepository,
-)
 from src.spira_training.shared.core.models.path import Path
 from src.spira_training.shared.core.services.model_training_service import (
     ModelTrainingService,
@@ -28,8 +24,8 @@ class ModelTrainingConfig(BaseModel):
 async def main():
     # TODO load config
     config = ModelTrainingConfig(
-        dataset_path=Path("dataset_path"),
-        trained_model_path=Path("trained_model_path"),
+        dataset_path=Path(PathLibPath("dataset_path")),
+        trained_model_path=Path(PathLibPath("trained_model_path")),
     )
 
     # TODO instantiate the dependencies using configs
