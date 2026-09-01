@@ -23,8 +23,8 @@ from .interfaces.pytorch_loss_calculator import PytorchLossCalculator
 from .interfaces.pytorch_scheduler import PytorchScheduler
 from .interfaces.pytorch_checkpoint_manager import Checkpoint, PytorchCheckpointManager
 
+from src.spira_training.shared.core.models.base_model import BaseModel
 from src.spira_training.shared.ports.model_trainer import ModelTrainer
-from src.spira_training.shared.core.models.trained_model import TrainedModel
 
 
 BaseModel = PytorchModel
@@ -55,7 +55,7 @@ class PytorchModelTrainer(ModelTrainer):
 
     def train_model(
         self, train_dataset: Dataset, test_dataset: Dataset, epochs: int
-    ) -> TrainedModel:
+    ) -> BaseModel:
         train_dataloader = self._train_dataloader_factory.make_dataloader(
             dataset=train_dataset
         )

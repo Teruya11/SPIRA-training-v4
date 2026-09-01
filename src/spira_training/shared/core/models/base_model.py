@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class TrainedModel(ABC):
+class BaseModel(ABC):
     @abstractmethod
     def dump_state(self) -> dict: ...
 
