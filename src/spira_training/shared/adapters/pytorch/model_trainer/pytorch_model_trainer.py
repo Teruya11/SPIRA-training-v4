@@ -1,14 +1,11 @@
 from typing import Sequence
 
-from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_model import (
-    PytorchModel,
-)
-
 from src.spira_training.shared.adapters.pytorch.models.pytorch_batch import (
     PytorchBatch,
 )
 
 
+from src.spira_training.shared.core.models.base_model import BaseModel
 from src.spira_training.shared.core.models.event import TestLossEvent, TrainLossEvent
 
 from src.spira_training.shared.ports.train_logger import TrainLogger
@@ -23,11 +20,7 @@ from .interfaces.pytorch_loss_calculator import PytorchLossCalculator
 from .interfaces.pytorch_scheduler import PytorchScheduler
 from .interfaces.pytorch_checkpoint_manager import Checkpoint, PytorchCheckpointManager
 
-from src.spira_training.shared.core.models.base_model import BaseModel
 from src.spira_training.shared.ports.model_trainer import ModelTrainer
-
-
-BaseModel = PytorchModel
 
 
 class PytorchModelTrainer(ModelTrainer):

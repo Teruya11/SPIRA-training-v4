@@ -9,9 +9,7 @@ from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch
 )
 
 from src.spira_training.shared.ports.path_validator import PathValidator
-from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_model import (
-    PytorchModel,
-)
+from src.spira_training.shared.core.models.base_model import BaseModel
 from src.spira_training.shared.core.models.loss import Loss
 from src.spira_training.shared.core.models.step import Step
 from src.spira_training.shared.core.models.valid_path import ValidPath
@@ -33,7 +31,7 @@ class FileSystemCheckpointBuilder:
 
     def create_checkpoint(
         self,
-        model: PytorchModel,
+        model: BaseModel,
         optimizer: PytorchOptimizer,
         loss: Loss,
         step: Step,

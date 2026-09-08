@@ -15,9 +15,7 @@ from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch
     PytorchOptimizer,
 )
 
-from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_model import (
-    PytorchModel,
-)
+from src.spira_training.shared.core.models.base_model import BaseModel
 from src.spira_training.shared.core.models.loss import Loss
 from src.spira_training.shared.core.models.step import Step
 
@@ -26,7 +24,7 @@ class FilesystemPytorchCheckpointManager(PytorchCheckpointManager):
     def __init__(
         self,
         checkpoint_builder: FileSystemCheckpointBuilder,
-        model: PytorchModel,
+        model: BaseModel,
         optimizer: PytorchOptimizer,
         initial_checkpoint: Optional[FilesystemCheckpoint],
     ):

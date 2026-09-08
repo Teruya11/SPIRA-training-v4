@@ -10,4 +10,5 @@ from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch
 
 class SimplePytorchTensorFactory(PytorchTensorFactory):
     def create_tensor_from_audio(self, audio: Audio) -> PytorchTensor:
-        return PytorchTensor(torch.tensor(audio.wav.tensor, dtype=torch.float32))
+        tensor = audio.wav.tensor.detach().clone().to(dtype=torch.float32)
+        return PytorchTensor(tensor)
