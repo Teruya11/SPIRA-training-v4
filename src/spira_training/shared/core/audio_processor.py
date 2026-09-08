@@ -19,11 +19,19 @@ class AudioProcessor:
     def process_audio(self, audio: Audio) -> Audio:
         pytorch_tensor = self.pytorch_tensor_factory.create_tensor_from_audio(audio)
         feature_wav = self.feature_transformer.transform(Wav(pytorch_tensor))
-        transposed_feature_wav = feature_wav.transpose(1, 2)
-        reshaped_feature_wav = transposed_feature_wav.reshape(
-            transposed_feature_wav.shape[1:]
-        )
-        return Audio(wav=reshaped_feature_wav, sample_rate=audio.sample_rate)
+
+        if feature_wav.dim() == 2:
+            feature_wav = feature_wav.unsqueeze(0)
+
+        if feature_wav.dim() >= 3:
+            transposed_feature_wav = feature_wav.transpose(1, 2)
+            reshaped_feature_wav = transposed_feature_wav.reshape(
+                transposed_feature_wav.shape[1:]
+            )
+        else:
+            reshaped_feature_wav = feature_wav
+
+        return Audio(wav=Wav(reshaped_feature_wav), sample_rate=audio.sample_rate)
 
     def process_audios(self, audios: AudioCollection) -> AudioCollection:
         audio_list = [self.process_audio(audio) for audio in audios]

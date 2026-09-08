@@ -5,21 +5,21 @@ from src.spira_training.shared.ports.path_validator import PathValidator
 
 
 class FilesystemPathValidator(PathValidator):
-    """Validates that file paths exist on the filesystem."""
+    """Validates that filesystem paths exist and may be files or directories."""
 
     def validate_path(self, path: Path | str) -> ValidPath:
-        """Validate and wrap an existing filesystem file path.
+        """Validate and wrap an existing filesystem path.
 
         Raises:
             FileNotFoundError: If ``path`` does not exist.
-            ValueError: If ``path`` exists but is not a regular file.
+            ValueError: If ``path`` exists but is neither a file nor a directory.
         """
         path_obj = Path(path)
 
         if not path_obj.exists():
             raise FileNotFoundError(f"Path does not exist: {path}")
 
-        if not path_obj.is_file():
-            raise ValueError(f"Path is not a file: {path}")
+        if not path_obj.is_file() and not path_obj.is_dir():
+            raise ValueError(f"Path is neither a file nor a directory: {path}")
 
         return ValidPath(path=path_obj)
