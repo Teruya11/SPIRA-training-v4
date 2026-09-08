@@ -24,6 +24,9 @@ from src.spira_training.apps.feature_engineering.configs.feature_engineering_con
     FeatureEngineeringConfig,
 )
 from src.spira_training.shared.adapters.audios_repository import AudiosRepository
+from src.spira_training.shared.adapters.csv_audio_manifest_reader import (
+    CSVAudioManifestReader,
+)
 from src.spira_training.shared.adapters.parquet_dataset_repository import (
     ParquetDatasetRepository,
 )
@@ -42,9 +45,7 @@ def make_config() -> FeatureEngineeringConfig:
     return FeatureEngineeringConfig(
         audio=AudioConfig(
             dataset_paths=DatasetPaths(
-                patients_dir=Path("data/patients"),
-                controls_dir=Path("data/controls"),
-                noises_dir=Path("data/noises"),
+                metadata_csv=Path("data/metadata.csv"),
             ),
             normalize=True,
         ),
@@ -114,6 +115,7 @@ async def main():
 
     dataset_repository = ParquetDatasetRepository()
     audios_repository = AudiosRepository()
+    manifest_reader = CSVAudioManifestReader()
     pytorch_audio_factory = SimplePytorchTensorFactory()
     audio_processor = create_audio_processor(
         config.audio_processor, pytorch_audio_factory
@@ -123,12 +125,11 @@ async def main():
         config=config,
         dataset_repository=dataset_repository,
         audios_repository=audios_repository,
+        manifest_reader=manifest_reader,
         audio_processor=audio_processor,
     )
 
     save_dataset_path = Path("tmp/feature_engineering_pipeline_dataset.parquet")
-    save_dataset_path.parent.mkdir(parents=True, exist_ok=True)
-
     await service.execute(save_dataset_path=save_dataset_path)
 
 
