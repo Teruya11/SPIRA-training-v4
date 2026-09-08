@@ -37,10 +37,7 @@ class SimplePytorchDataloaderFactory(PytorchDataloaderFactory):
         self._pytorch_tensor_factory = pytorch_tensor_factory
 
     def make_dataloader(self, dataset: Dataset) -> PytorchDataloader:
-        features = [
-            self._pytorch_tensor_factory.create_tensor_from_audio(audio)
-            for audio in dataset.features
-        ]
+        features = [torch.as_tensor(feature, dtype=torch.float32) for feature in dataset.features]
         labels = [PytorchLabel(torch.tensor(label.value)) for label in dataset.labels]
         pytorch_dataset = PytorchDataset(
             features=features,

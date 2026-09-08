@@ -1,20 +1,26 @@
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import torch
 
 from src.spira_training.shared.adapters.filesystem_path_validator import (
     FilesystemPathValidator,
 )
-from src.spira_training.shared.core.models.audio import Audio
 from src.spira_training.shared.core.models.dataset import Dataset, Label
-from src.spira_training.shared.core.models.wav import Wav
 from src.spira_training.shared.ports.dataset_repository import DatasetRepository
 from src.spira_training.shared.ports.path_validator import PathValidator
 
 
 class ParquetDatasetRepository(DatasetRepository):
-    """Persists datasets using Parquet format via Pandas."""
+    """Persists datasets using Parquet format via Pandas.
+
+    Storage shape is intentionally row-oriented: each record is one sample,
+    with a single `features` cell containing the full feature vector and
+    a single `labels` cell containing the target label. This yields a
+    DataFrame shape of approximately `(n_samples, 2)` instead of a very wide
+    `(n_samples, n_features)` table.
+    """
 
     def __init__(self, path_validator: PathValidator | None = None) -> None:
         self._path_validator = path_validator or FilesystemPathValidator()
@@ -25,7 +31,7 @@ class ParquetDatasetRepository(DatasetRepository):
         try:
             dataframe = pd.read_parquet(validated_path)
             features = [
-                Audio(wav=Wav(torch.tensor(wav_data)), sample_rate=16000)
+                np.asarray(wav_data, dtype=np.float32).reshape(-1).tolist()
                 for wav_data in dataframe["features"]
             ]
             labels = [Label(int(label)) for label in dataframe["labels"]]
@@ -42,7 +48,10 @@ class ParquetDatasetRepository(DatasetRepository):
         try:
             dataframe = pd.DataFrame(
                 {
-                    "features": [audio.wav.tensor.numpy() for audio in dataset.features],
+                    "features": [
+                        np.asarray(feature.detach().cpu().numpy(), dtype=np.float32).reshape(-1).tolist()
+                        for feature in dataset.features
+                    ],
                     "labels": [label.value for label in dataset.labels],
                 }
             )

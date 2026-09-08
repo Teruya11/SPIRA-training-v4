@@ -1,5 +1,4 @@
-from typing import List
-from src.spira_training.shared.core.models.audio import Audio
+from typing import Any, List
 from src.spira_training.shared.core.models.enum import BaseEnum
 
 
@@ -9,6 +8,6 @@ class Label(BaseEnum):
 
 
 class Dataset:
-    def __init__(self, features: List[Audio], labels: List[Label]):
+    def __init__(self, features: List[Any], labels: List[Label]):
         self.features = features
         self.labels = labels
