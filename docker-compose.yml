@@ -1,18 +1,48 @@
-version: "3.8"
-
 services:
   app:
     image: spira-training:latest
     build:
       context: .
+    environment:
+      PYTHONPATH: /app
+    command: "poetry run python scripts/test_model_training_service.py"
     volumes:
       - .:/app
       - /app/.venv
     
-  unit-tests:
+  feature-engineering:
+    image: spira-training:latest
+    environment:
+      PYTHONPATH: /app
+    command: "poetry run python scripts/test_feature_engineering.py"
+    volumes:
+      - .:/app
+      - /app/.venv
+
+  feature-engineering-plus-training:
+    image: spira-training:latest
+    environment:
+      PYTHONPATH: /app
+    command: "poetry run python scripts/test_model_training_from_feature_engineering.py"
+    volumes:
+      - .:/app
+      - /app/.venv
+
+  pipeline:
     image: spira-training:latest
     build:
       context: .
+    environment:
+      PYTHONPATH: /app
+    command: >
+      sh -c "poetry run python src/spira_training/apps/feature_engineering/feature_engineering.py &&
+      poetry run python src/spira_training/apps/model_training/model_training.py"
+    volumes:
+      - .:/app
+      - /app/.venv
+
+  unit-tests:
+    image: spira-training:latest
     command: "poetry run pytest tests/unit"
     volumes:
       - .:/app
@@ -20,10 +50,14 @@ services:
       
   integration-tests:
     image: spira-training:latest
-    build:
-      context: .
     command: "poetry run pytest tests/integration"
     volumes:
       - .:/app
       - /app/.venv
       
+  typecheck:
+    image: spira-training:latest
+    command: "poetry run pyright src"
+    volumes:
+      - .:/app
+      - /app/.venv
