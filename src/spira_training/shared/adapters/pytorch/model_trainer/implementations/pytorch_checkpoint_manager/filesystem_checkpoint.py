@@ -51,7 +51,7 @@ class FilesystemCheckpoint:
         checkpoint_state = {
             "model": model.dump_state(),
             "optimizer": optimizer.dump_state(),
-            "validation_loss": validation_loss,
+            "validation_loss": validation_loss.value,
             "step": step,
         }
         return cast(Self, FilesystemCheckpoint(checkpoint_state))
@@ -60,7 +60,7 @@ class FilesystemCheckpoint:
         checkpoint_state = {
             "model": self.model_state,
             "optimizer": self.optimizer_state,
-            "validation_loss": self.validation_loss.item(),
+            "validation_loss": self.validation_loss,
             "step": self.step,
         }
         torch.save(checkpoint_state, checkpoint_path)
