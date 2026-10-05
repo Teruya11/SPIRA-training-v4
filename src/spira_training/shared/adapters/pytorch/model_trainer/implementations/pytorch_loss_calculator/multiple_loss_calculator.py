@@ -1,7 +1,7 @@
 from typing import Sequence
 from spira_training.shared.adapters.pytorch.models.pytorch_label import PytorchLabel
 from spira_training.shared.adapters.pytorch.models.pytorch_tensor import PytorchTensor
-from spira_training.shared.core.models.loss import Loss
+from src.spira_training.shared.core.models.loss import Loss
 import torch
 from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorch_loss_calculator.single_loss_calculator import (
     SingleLossCalculator,
