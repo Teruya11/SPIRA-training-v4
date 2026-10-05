@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import Optional
 
 from spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorch_checkpoint_manager.filesystem_checkpoint import (
@@ -43,18 +44,20 @@ class FileSystemCheckpointBuilder:
         )
 
     def save_checkpoint_with_step(self, checkpoint: FilesystemCheckpoint):
-        checkpoint_path = self.fs_path_validator.validate_path(
+        checkpoint_path = Path(
             os.path.join(self.checkpoint_dir, f"checkpoint_{checkpoint.step}.pt")
         )
-        checkpoint.save(checkpoint_path)
+        checkpoint.save(ValidPath(path=checkpoint_path))
+        self.fs_path_validator.validate_path(checkpoint_path)
 
     def save_checkpoint_with_prefix(
         self, checkpoint: FilesystemCheckpoint, prefix: str
     ):
-        checkpoint_path = self.fs_path_validator.validate_path(
+        checkpoint_path = Path(
             os.path.join(self.checkpoint_dir, f"{prefix}_checkpoint.pt")
         )
-        checkpoint.save(checkpoint_path)
+        checkpoint.save(ValidPath(path=checkpoint_path))
+        self.fs_path_validator.validate_path(checkpoint_path)
 
     def _should_checkpoint(self, step: Step) -> bool:
         return int(step) % self.checkpoint_interval == 0
