@@ -27,8 +27,8 @@ from src.spira_training.shared.adapters.audios_repository import AudiosRepositor
 from src.spira_training.shared.adapters.csv_audio_manifest_reader import (
     CSVAudioManifestReader,
 )
-from src.spira_training.shared.adapters.parquet_dataset_repository import (
-    ParquetDatasetRepository,
+from src.spira_training.shared.adapters.pickle_dataset_repository import (
+    PickleDatasetRepository,
 )
 from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.simple_pytorch_audio_factory import (
     SimplePytorchTensorFactory,
@@ -113,7 +113,8 @@ def make_config() -> FeatureEngineeringConfig:
 async def main():
     config = make_config()
 
-    dataset_repository = ParquetDatasetRepository()
+    dataset_repository = PickleDatasetRepository()
+    # De onde vem os audios (Filesystem)
     audios_repository = AudiosRepository()
     manifest_reader = CSVAudioManifestReader()
     pytorch_audio_factory = SimplePytorchTensorFactory()
@@ -129,7 +130,7 @@ async def main():
         audio_processor=audio_processor,
     )
 
-    save_dataset_path = Path("tmp/feature_engineering_pipeline_dataset.parquet")
+    save_dataset_path = Path("tmp/feature_engineering_pipeline_dataset.pkl")
     await service.execute(save_dataset_path=save_dataset_path)
 
 

@@ -28,7 +28,7 @@ class FeatureEngineeringService:
     async def execute(self, save_dataset_path: Path) -> None:
         dataset = self._generate_dataset()
 
-        await self.dataset_repository.save_dataset(dataset, save_dataset_path)  # type: ignore
+        await self.dataset_repository.save_dataset(dataset, save_dataset_path)
 
     def _generate_dataset(self):
         metadata_path = self.config.audio.dataset_paths.metadata_csv
