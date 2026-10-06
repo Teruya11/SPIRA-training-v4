@@ -27,6 +27,7 @@ from src.spira_training.shared.adapters.audios_repository import AudiosRepositor
 from src.spira_training.shared.adapters.csv_audio_manifest_reader import (
     CSVAudioManifestReader,
 )
+from src.spira_training.shared.adapters.json_config_loader import JsonConfigLoader
 from src.spira_training.shared.adapters.pickle_dataset_repository import (
     PickleDatasetRepository,
 )
@@ -41,7 +42,14 @@ from src.spira_training.shared.core.services.feature_engineering_service import 
 )
 
 
-def make_config() -> FeatureEngineeringConfig:
+def make_config(config_path: str | Path | None = None) -> FeatureEngineeringConfig:
+    if config_path is None:
+        config_path = Path(__file__).resolve().parents[3] / "feature_engineering_config.json"
+
+    config_path = Path(config_path)
+    if config_path.exists():
+        return JsonConfigLoader().load_feature_engineering_config(config_path)
+
     return FeatureEngineeringConfig(
         audio=AudioConfig(
             dataset_paths=DatasetPaths(
