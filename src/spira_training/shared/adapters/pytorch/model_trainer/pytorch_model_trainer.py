@@ -23,6 +23,8 @@ from .interfaces.pytorch_checkpoint_manager import Checkpoint, PytorchCheckpoint
 from src.spira_training.shared.ports.model_trainer import ModelTrainer
 
 
+
+# Wire up
 class PytorchModelTrainer(ModelTrainer):
     def __init__(
         self,

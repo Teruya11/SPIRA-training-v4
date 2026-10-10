@@ -33,7 +33,11 @@ class SimplePytorchModel(BaseModel):
         return self._inner_model(feature)
 
     def predict_batch(self, features_batch: list[PytorchTensor]) -> list[PytorchLabel]:
-        return self._inner_model(torch.tensor(features_batch))
+        features = torch.stack(list(features_batch))
+        if features.ndim == 3:
+            features = features.transpose(1, 2)
+        predictions = self._inner_model(features)
+        return predictions.mean(dim=1).squeeze(-1)
 
     def get_parameters(self) -> list[PytorchParameter]:
         return [
