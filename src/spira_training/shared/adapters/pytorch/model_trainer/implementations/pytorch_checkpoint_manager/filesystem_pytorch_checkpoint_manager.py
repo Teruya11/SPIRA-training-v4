@@ -1,6 +1,7 @@
 from typing import Optional
 
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_checkpoint_manager import (
+    Checkpoint,
     PytorchCheckpointManager,
 )
 
@@ -35,8 +36,8 @@ class FilesystemPytorchCheckpointManager(PytorchCheckpointManager):
         self.last_checkpoint = self._initialize_checkpoint(initial_checkpoint)
         self.best_checkpoint = self.last_checkpoint
 
-    def update_and_save_checkpoints(self, loss: Loss, step: Step):
-        self._update_checkpoints(loss, step)
+    def update_and_save_checkpoint(self, checkpoint: Checkpoint) -> None:
+        self._update_checkpoints(checkpoint.loss, checkpoint.step)
         self._save_checkpoints()
 
     def _update_checkpoints(self, loss: Loss, step: Step):
