@@ -1,25 +1,6 @@
 import asyncio
 from pathlib import Path
 
-from src.spira_training.apps.feature_engineering.configs.audio_config import (
-    AudioConfig,
-    DatasetPaths,
-)
-from src.spira_training.apps.feature_engineering.configs.audio_feature_transformer_config import (
-    AudioFeatureTransformerConfig,
-    AudioFeatureTransformerOptions,
-    AudioFeatureTransformersCollection,
-    MixedAudioFeatureTransformerConfig,
-    NoisyAudioFeatureTransformerConfig,
-    OverlappedAudioFeatureTransformerConfig,
-)
-from src.spira_training.apps.feature_engineering.configs.audio_processor_config import (
-    AudioProcessorConfig,
-    AudioProcessorType,
-    MFCCAudioProcessorConfig,
-    MelspectrogramAudioProcessorConfig,
-    SpectrogramAudioProcessorConfig,
-)
 from src.spira_training.apps.feature_engineering.configs.feature_engineering_config import (
     FeatureEngineeringConfig,
 )
@@ -27,9 +8,8 @@ from src.spira_training.shared.adapters.audios_repository import AudiosRepositor
 from src.spira_training.shared.adapters.csv_audio_manifest_reader import (
     CSVAudioManifestReader,
 )
-from src.spira_training.shared.adapters.json_config_loader import JsonConfigLoader
-from src.spira_training.shared.adapters.pickle_dataset_repository import (
-    PickleDatasetRepository,
+from src.spira_training.shared.adapters.pytorch_dataset_repository import (
+    PytorchDatasetRepository,
 )
 from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.simple_pytorch_audio_factory import (
     SimplePytorchTensorFactory,
@@ -44,87 +24,24 @@ from src.spira_training.shared.core.services.feature_engineering_service import 
 
 def make_config(config_path: str | Path | None = None) -> FeatureEngineeringConfig:
     if config_path is None:
-        config_path = Path(__file__).resolve().parents[3] / "feature_engineering_config.json"
+        config_path = Path(__file__).resolve().parents[4] / "config.json"
 
     config_path = Path(config_path)
-    if config_path.exists():
-        return JsonConfigLoader().load_feature_engineering_config(config_path)
+    if not config_path.is_file():
+        raise FileNotFoundError(f"Configuration file does not exist: {config_path}")
 
-    return FeatureEngineeringConfig(
-        audio=AudioConfig(
-            dataset_paths=DatasetPaths(
-                metadata_csv=Path("data/metadata.csv"),
-            ),
-            normalize=True,
-        ),
-        audio_processor=AudioProcessorConfig(
-            feature_type=AudioProcessorType.MFCC,
-            hop_length=512,
-            mfcc=MFCCAudioProcessorConfig(
-                sample_rate=16000,
-                num_mels=40,
-                num_mfcc=13,
-                log_mels=True,
-                n_fft=512,
-                win_length=400,
-            ),
-            spectrogram=SpectrogramAudioProcessorConfig(
-                sample_rate=16000,
-                num_mels=40,
-                mel_fmin=0.0,
-                mel_fmax=8000.0,
-                num_mfcc=13,
-                log_mels=True,
-                n_fft=512,
-                num_freq=257,
-                win_length=400,
-            ),
-            melspectrogram=MelspectrogramAudioProcessorConfig(
-                sample_rate=16000,
-                num_mels=40,
-                mel_fmin=0.0,
-                mel_fmax=8000.0,
-                num_mfcc=13,
-                log_mels=True,
-                n_fft=512,
-                num_freq=257,
-                win_length=400,
-            ),
-        ),
-        audio_feature_transformer=AudioFeatureTransformerConfig(
-            options=AudioFeatureTransformerOptions(
-                use_noise=True,
-                use_overlapping=True,
-                use_padding=True,
-                use_mixture=True,
-            ),
-            audio_feature_transformers=AudioFeatureTransformersCollection(
-                noisy_audio=NoisyAudioFeatureTransformerConfig(
-                    num_noise_control=5,
-                    num_noise_patient=5,
-                    noise_max_amp=0.5,
-                    noise_min_amp=0.1,
-                ),
-                overlapped_audio=OverlappedAudioFeatureTransformerConfig(
-                    window_length=400,
-                    step_size=160,
-                ),
-                mixed_audio=MixedAudioFeatureTransformerConfig(
-                    alpha=0.5,
-                    beta=0.5,
-                ),
-            ),
-        ),
-    )
+    from src.spira_training.shared.adapters.json_config_loader import JsonConfigLoader
+
+    return JsonConfigLoader().load(config_path).feature_engineering_config
 
 
 async def main():
     config = make_config()
 
-    dataset_repository = PickleDatasetRepository()
-    # De onde vem os audios (Filesystem)
+    dataset_repository = PytorchDatasetRepository(config.dataset_base_path)
     audios_repository = AudiosRepository()
     manifest_reader = CSVAudioManifestReader()
+
     pytorch_audio_factory = SimplePytorchTensorFactory()
     audio_processor = create_audio_processor(
         config.audio_processor, pytorch_audio_factory
@@ -138,8 +55,7 @@ async def main():
         audio_processor=audio_processor,
     )
 
-    save_dataset_path = Path("tmp/feature_engineering_pipeline_dataset.pkl")
-    await service.execute(save_dataset_path=save_dataset_path)
+    await service.execute(Path(config.dataset_file))
 
 
 if __name__ == "__main__":
