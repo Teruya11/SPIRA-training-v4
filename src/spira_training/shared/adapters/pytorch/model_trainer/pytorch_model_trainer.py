@@ -5,7 +5,7 @@ from src.spira_training.shared.adapters.pytorch.models.pytorch_batch import (
 )
 
 
-from src.spira_training.shared.core.models.base_model import BaseModel
+from src.spira_training.shared.core.models.trainable_model import TrainableModel
 from src.spira_training.shared.core.models.event import TestLossEvent, TrainLossEvent
 
 from src.spira_training.shared.ports.train_logger import TrainLogger
@@ -26,7 +26,7 @@ from src.spira_training.shared.ports.model_trainer import ModelTrainer
 class PytorchModelTrainer(ModelTrainer):
     def __init__(
         self,
-        base_model: BaseModel,
+        base_model: TrainableModel,
         optimizer: PytorchOptimizer,
         train_dataloader_factory: PytorchDataloaderFactory,
         test_dataloader_factory: PytorchDataloaderFactory,
@@ -48,7 +48,7 @@ class PytorchModelTrainer(ModelTrainer):
 
     def train_model(
         self, train_dataset: Dataset, test_dataset: Dataset, epochs: int
-    ) -> BaseModel:
+    ) -> TrainableModel:
         train_dataloader = self._train_dataloader_factory.make_dataloader(
             dataset=train_dataset
         )
