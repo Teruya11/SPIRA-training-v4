@@ -4,10 +4,20 @@ import pandas as pd
 
 from src.spira_training.shared.core.models.audio_metadata import AudioMetadata
 from src.spira_training.shared.core.models.dataset import Label
+from src.spira_training.shared.adapters.filesystem_path_validator import (
+    FilesystemPathValidator,
+)
 from src.spira_training.shared.ports.audio_manifest_reader import AudioManifestReader
+from src.spira_training.shared.ports.path_validator import PathValidator
 
 
 class CSVAudioManifestReader(AudioManifestReader):
+    def __init__(
+        self,
+        path_validator: PathValidator = FilesystemPathValidator(),
+    ) -> None:
+        self._path_validator = path_validator
+
     required_columns = {
         "patient_hash",
         "audio_type",
@@ -23,7 +33,8 @@ class CSVAudioManifestReader(AudioManifestReader):
     }
 
     def read(self, path: str) -> list[AudioMetadata]:
-        dataframe = pd.read_csv(Path(path))
+        validated_path = self._path_validator.validate_path(path)
+        dataframe = pd.read_csv(validated_path.path)
         missing_columns = self.required_columns - set(dataframe.columns)
         if missing_columns:
             raise ValueError(

@@ -8,6 +8,7 @@ from src.spira_training.shared.adapters.audios_repository import AudiosRepositor
 from src.spira_training.shared.adapters.csv_audio_manifest_reader import (
     CSVAudioManifestReader,
 )
+from src.spira_training.shared.adapters.filesystem_path_validator import FilesystemPathValidator
 from src.spira_training.shared.adapters.pytorch_dataset_repository import (
     PytorchDatasetRepository,
 )
@@ -20,27 +21,32 @@ from src.spira_training.shared.core.audio_processor_factory import (
 from src.spira_training.shared.core.services.feature_engineering_service import (
     FeatureEngineeringService,
 )
+from src.spira_training.shared.ports.path_validator import PathValidator
 
 
-def make_config(config_path: str | Path | None = None) -> FeatureEngineeringConfig:
+def make_config(
+    config_path: str | Path | None = None,
+    path_validator: PathValidator = FilesystemPathValidator(),
+) -> FeatureEngineeringConfig:
     if config_path is None:
         config_path = Path(__file__).resolve().parents[4] / "config.json"
 
-    config_path = Path(config_path)
-    if not config_path.is_file():
-        raise FileNotFoundError(f"Configuration file does not exist: {config_path}")
+    config_path = path_validator.validate_path(Path(config_path)).path
 
     from src.spira_training.shared.adapters.json_config_loader import JsonConfigLoader
 
-    return JsonConfigLoader().load(config_path).feature_engineering_config
+    return JsonConfigLoader(path_validator).load(config_path).feature_engineering_config
 
 
 async def main():
-    config = make_config()
+    path_validator = FilesystemPathValidator()
+    config = make_config(path_validator=path_validator)
 
-    dataset_repository = PytorchDatasetRepository(config.dataset_base_path)
-    audios_repository = AudiosRepository()
-    manifest_reader = CSVAudioManifestReader()
+    dataset_repository = PytorchDatasetRepository(
+        config.dataset_base_path, path_validator
+    )
+    audios_repository = AudiosRepository(path_validator=path_validator)
+    manifest_reader = CSVAudioManifestReader(path_validator)
 
     pytorch_audio_factory = SimplePytorchTensorFactory()
     audio_processor = create_audio_processor(
