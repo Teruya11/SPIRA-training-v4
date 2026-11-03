@@ -7,13 +7,24 @@ from src.spira_training.apps.feature_engineering.configs.feature_engineering_con
 from src.spira_training.apps.model_training.model_training_config import (
     ModelTrainingConfig,
 )
+from src.spira_training.shared.adapters.filesystem_path_validator import (
+    FilesystemPathValidator,
+)
 from src.spira_training.shared.core.models.config import Config
 from src.spira_training.shared.ports.config_loader import ConfigLoader
+from src.spira_training.shared.ports.path_validator import PathValidator
 
 
 class JsonConfigLoader(ConfigLoader):
+    def __init__(
+        self,
+        path_validator: PathValidator = FilesystemPathValidator(),
+    ) -> None:
+        self._path_validator = path_validator
+
     def load(self, path: str | Path) -> Config:
-        with Path(path).open() as file:
+        validated_path = self._path_validator.validate_path(path)
+        with validated_path.path.open() as file:
             config_json = json.load(file)
 
         return Config(

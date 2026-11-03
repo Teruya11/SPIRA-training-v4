@@ -62,7 +62,8 @@ from src.spira_training.apps.model_training.model_training_config import make_co
 
 
 async def main():
-    config = make_config()
+    path_validator = FilesystemPathValidator()
+    config = make_config(path_validator=path_validator)
 
     dataset_repository = PytorchDatasetRepository(config.dataset_base_path)
     dataset_splitter = SkDatasetSplitter()
@@ -104,7 +105,6 @@ async def main():
         pytorch_optimizer_wrapper=pytorch_optimizer,
         warmup_steps=10,
     )
-    path_validator = FilesystemPathValidator()
     checkpoint_dir = PathLibPath("tmp")
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
     checkpoint_manager = FilesystemPytorchCheckpointManager(
