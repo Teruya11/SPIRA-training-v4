@@ -2,7 +2,6 @@ import asyncio
 from pathlib import Path as PathLibPath
 
 import torch
-from pydantic import BaseModel
 
 from src.spira_training.shared.adapters.debug_train_logger import DebugTrainLogger
 from src.spira_training.shared.adapters.filesystem_trained_models_repository import (
@@ -11,8 +10,8 @@ from src.spira_training.shared.adapters.filesystem_trained_models_repository imp
 from src.spira_training.shared.adapters.filesystem_path_validator import (
     FilesystemPathValidator,
 )
-from src.spira_training.shared.adapters.pickle_dataset_repository import (
-    PickleDatasetRepository,
+from src.spira_training.shared.adapters.pytorch_dataset_repository import (
+    PytorchDatasetRepository,
 )
 from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.noam_lr_pytorch_scheduler import (
     NoamLRPytorchScheduler,
@@ -59,21 +58,13 @@ from src.spira_training.shared.core.services.model_training_service import (
     ModelTrainingService,
 )
 
-
-class ModelTrainingConfig(BaseModel):
-    dataset_path: Path
-    trained_model_path: Path
+from src.spira_training.apps.model_training.model_training_config import make_config
 
 
 async def main():
-    # TODO load config
-    config = ModelTrainingConfig(
-        dataset_path=Path(PathLibPath("tmp/feature_engineering_pipeline_dataset.pkl")),
-        trained_model_path=Path(PathLibPath("tmp/model_training_pipeline.pt")),
-    )
+    config = make_config()
 
-    # TODO instantiate the dependencies using configs
-    dataset_repository = PickleDatasetRepository()
+    dataset_repository = PytorchDatasetRepository(config.dataset_base_path)
     dataset_splitter = SkDatasetSplitter()
 
     cnn_builder = OverlappedFeaturesPytorchCnnBuilder(
@@ -114,9 +105,11 @@ async def main():
         warmup_steps=10,
     )
     path_validator = FilesystemPathValidator()
+    checkpoint_dir = PathLibPath("tmp")
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
     checkpoint_manager = FilesystemPytorchCheckpointManager(
         checkpoint_builder=FileSystemCheckpointBuilder(
-            checkpoint_dir=path_validator.validate_path(PathLibPath("tmp")),
+            checkpoint_dir=path_validator.validate_path(checkpoint_dir),
             checkpoint_interval=10,
             fs_path_validator=path_validator,
         ),
@@ -135,18 +128,19 @@ async def main():
         scheduler=scheduler,
         checkpoint_manager=checkpoint_manager,
     )
-    trained_models_repository = FilesystemTrainedModelsRepository()
+    trained_models_repository = FilesystemTrainedModelsRepository(
+        base_path=config.trained_model_base_path
+    )
 
     service = ModelTrainingService(
+        config=config,
         dataset_repository=dataset_repository,
         dataset_splitter=dataset_splitter,
         model_trainer=model_trainer,
         trained_models_repository=trained_models_repository,
     )
 
-    await service.execute(
-        dataset_path=config.dataset_path, trained_model_path=config.trained_model_path
-    )
+    await service.execute()
 
 
 if __name__ == "__main__":

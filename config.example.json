@@ -1,8 +1,10 @@
 {
   "feature_engineering_config": {
+    "dataset_base_path": "out",
+    "dataset_file": "processed_dataset.pt",
     "audio": {
       "dataset_paths": {
-        "metadata_csv": "data/metadata.csv"
+        "metadata_csv": "data/patient_collection.csv"
       },
       "normalize": true
     },
@@ -65,5 +67,11 @@
         }
       }
     }
+  },
+  "model_training_config": {
+    "dataset_base_path": "out",
+    "dataset_file": "processed_dataset.pt",
+    "trained_model_base_path": "out",
+    "trained_model_file": "trained_model.pt"
   }
 }

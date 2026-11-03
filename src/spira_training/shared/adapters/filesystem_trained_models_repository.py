@@ -11,19 +11,19 @@ from src.spira_training.shared.ports.trained_models_repository import (
     TrainedModelsRepository,
 )
 
-# use the fucking path validator
 class FilesystemTrainedModelsRepository(TrainedModelsRepository):
     def __init__(
         self,
-        path_validator: PathValidator | None = None,
         base_path: Path | None = None,
+        path_validator: PathValidator = FilesystemPathValidator(),
     ) -> None:
-        self._path_validator = path_validator or FilesystemPathValidator()
+        self._path_validator = path_validator
         self._base_path = base_path
 
     async def get_model(self, path: Path) -> BaseModel:
-        model_path = self._path_validator.validate_path(self._resolve(path))
-        return torch.load(model_path, map_location="cpu", weights_only=False)
+        model_path = self._resolve(path)
+        validated_path = self._path_validator.validate_path(model_path)
+        return torch.load(validated_path.path, map_location="cpu", weights_only=False)
 
     async def save_model(self, model: BaseModel, path: Path) -> None:
         model_path = self._resolve(path)

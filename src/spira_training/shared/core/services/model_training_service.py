@@ -1,4 +1,9 @@
+from pathlib import Path as PathLibPath
+
 from src.spira_training.shared.core.models.path import Path
+from src.spira_training.apps.model_training.model_training_config import (
+    ModelTrainingConfig,
+)
 from src.spira_training.shared.ports.dataset_splitter import DatasetSplitter
 from src.spira_training.shared.ports.model_trainer import ModelTrainer
 from src.spira_training.shared.ports.dataset_repository import DatasetRepository
@@ -10,18 +15,22 @@ from src.spira_training.shared.ports.trained_models_repository import (
 class ModelTrainingService:
     def __init__(
         self,
+        config: ModelTrainingConfig,
         dataset_repository: DatasetRepository,
         dataset_splitter: DatasetSplitter,
         model_trainer: ModelTrainer,
         trained_models_repository: TrainedModelsRepository,
     ):
+        self._config = config
         self._dataset_repository = dataset_repository
         self._model_trainer = model_trainer
         self._trained_models_repository = trained_models_repository
         self._dataset_splitter = dataset_splitter
 
-    async def execute(self, dataset_path: Path, trained_model_path: Path) -> None:
-        dataset = await self._dataset_repository.get_dataset(dataset_path)
+    async def execute(self) -> None:
+        dataset = await self._dataset_repository.get_dataset(
+            Path(PathLibPath(self._config.dataset_file))
+        )
         splitted_dataset = self._dataset_splitter.split(dataset)
         trained_model = self._model_trainer.train_model(
             train_dataset=splitted_dataset.train_dataset,
@@ -29,5 +38,5 @@ class ModelTrainingService:
             epochs=1,
         )
         await self._trained_models_repository.save_model(
-            trained_model, trained_model_path
+            trained_model, Path(PathLibPath(self._config.trained_model_file))
         )
