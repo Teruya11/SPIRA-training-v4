@@ -11,12 +11,12 @@ from src.spira_training.shared.adapters.pytorch.models.pytorch_label import (
     PytorchLabel,
 )
 
-from src.spira_training.shared.core.models.base_model import BaseModel
+from src.spira_training.shared.core.models.trainable_model import TrainableModel
 
 import torch
 
 
-class SimplePytorchModel(BaseModel):
+class SimplePytorchModel(TrainableModel):
     def __init__(self, model: InnerTorchModel):
         self._inner_model = model
 

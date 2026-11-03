@@ -1,19 +1,19 @@
 import torch
 
-from src.spira_training.shared.core.models.base_model import BaseModel
+from src.spira_training.shared.core.models.trainable_model import TrainableModel
 from src.spira_training.shared.core.models.dataset import Dataset
 from src.spira_training.shared.ports.model_trainer import ModelTrainer
 
 
 class MinimalTorchTrainer(ModelTrainer):
-    def __init__(self, model: BaseModel, optimizer: torch.optim.Optimizer, loss_fn):
+    def __init__(self, model: TrainableModel, optimizer: torch.optim.Optimizer, loss_fn):
         self._model = model
         self._optimizer = optimizer
         self._loss_fn = loss_fn
 
     def train_model(
         self, train_dataset: Dataset, test_dataset: Dataset, epochs: int
-    ) -> BaseModel:
+    ) -> TrainableModel:
         self._model.train()
 
         for _ in range(epochs):
