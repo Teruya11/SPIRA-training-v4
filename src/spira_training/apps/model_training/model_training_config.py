@@ -10,10 +10,8 @@ from src.spira_training.shared.ports.path_validator import PathValidator
 
 
 class ModelTrainingConfig(BaseModel):
-    dataset_base_path: Path
-    dataset_file: str
-    trained_model_base_path: Path
-    trained_model_file: str
+    dataset_path: Path
+    trained_model_path: Path
 
 
 def make_config(

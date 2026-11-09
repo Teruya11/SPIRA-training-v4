@@ -65,7 +65,7 @@ async def main():
     path_validator = FilesystemPathValidator()
     config = make_config(path_validator=path_validator)
 
-    dataset_repository = PytorchDatasetRepository(config.dataset_base_path)
+    dataset_repository = PytorchDatasetRepository(config.dataset_path)
     dataset_splitter = SkDatasetSplitter()
 
     cnn_builder = OverlappedFeaturesPytorchCnnBuilder(
@@ -129,11 +129,10 @@ async def main():
         checkpoint_manager=checkpoint_manager,
     )
     trained_models_repository = FilesystemTrainedModelsRepository(
-        base_path=config.trained_model_base_path
+        model_path=config.trained_model_path
     )
 
     service = ModelTrainingService(
-        config=config,
         dataset_repository=dataset_repository,
         dataset_splitter=dataset_splitter,
         model_trainer=model_trainer,

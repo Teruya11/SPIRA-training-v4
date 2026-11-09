@@ -15,15 +15,14 @@ from src.spira_training.shared.ports.path_validator import PathValidator
 class PytorchDatasetRepository(DatasetRepository):
     def __init__(
         self,
-        base_path: Path | None = None,
+        dataset_path: Path,
         path_validator: PathValidator = FilesystemPathValidator(),
     ) -> None:
-        self._base_path = base_path
+        self._dataset_path = dataset_path
         self._path_validator = path_validator
 
-    async def get_dataset(self, path: Path) -> Dataset:
-        resolved_path = self._resolve(path)
-        validated_path = self._path_validator.validate_path(resolved_path)
+    async def get_dataset(self) -> Dataset:
+        validated_path = self._path_validator.validate_path(self._dataset_path)
 
         try:
             with validated_path.path.open("rb") as file:
@@ -43,8 +42,8 @@ class PytorchDatasetRepository(DatasetRepository):
                 f"Failed to load dataset from {validated_path}: {error}"
             ) from error
 
-    async def save_dataset(self, dataset: Dataset, path: Path) -> None:
-        resolved_path = self._resolve(path)
+    async def save_dataset(self, dataset: Dataset) -> None:
+        resolved_path = self._dataset_path
         resolved_path.parent.mkdir(parents=True, exist_ok=True)
 
         try:
@@ -65,8 +64,3 @@ class PytorchDatasetRepository(DatasetRepository):
         except Exception as error:
             raise IOError(f"Failed to save dataset to {resolved_path}: {error}") from error
 
-    def _resolve(self, path: Path) -> Path:
-        path = Path(path)
-        if self._base_path is None or path.is_absolute():
-            return path
-        return self._base_path / path
