@@ -9,5 +9,4 @@ class FeatureEngineeringConfig(BaseModel):
     audio: AudioConfig
     audio_processor: AudioProcessorConfig
     audio_feature_transformer: AudioFeatureTransformerConfig
-    dataset_base_path: Path
-    dataset_file: str
+    dataset_path: Path
