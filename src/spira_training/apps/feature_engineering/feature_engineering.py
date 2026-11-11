@@ -16,7 +16,7 @@ from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.si
     SimplePytorchTensorFactory,
 )
 from src.spira_training.shared.core.audio_processor_factory import (
-    create_audio_processor,
+    create_pytorch_audio_processor,
 )
 from src.spira_training.shared.core.services.feature_engineering_service import (
     FeatureEngineeringService,
@@ -47,7 +47,7 @@ async def main():
     manifest_reader = CSVAudioManifestReader(path_validator)
 
     pytorch_audio_factory = SimplePytorchTensorFactory()
-    audio_processor = create_audio_processor(
+    audio_processor = create_pytorch_audio_processor(
         config.audio_processor, pytorch_audio_factory
     )
 
