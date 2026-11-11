@@ -44,7 +44,7 @@ async def main():
 
     dataset_repository = PytorchDatasetRepository(config.dataset_path, path_validator)
     audios_repository = AudiosRepository(path_validator=path_validator)
-    manifest_reader = CSVAudioManifestReader(path_validator)
+    manifest_reader = CSVAudioManifestReader(config.audio.dataset_paths.metadata_csv, path_validator)
 
     pytorch_audio_factory = SimplePytorchTensorFactory()
     audio_processor = create_pytorch_audio_processor(
@@ -52,7 +52,6 @@ async def main():
     )
 
     service = FeatureEngineeringService(
-        metadata_path=config.audio.dataset_paths.metadata_csv,
         dataset_repository=dataset_repository,
         audios_repository=audios_repository,
         manifest_reader=manifest_reader,
