@@ -10,13 +10,11 @@ from src.spira_training.shared.ports.audio_manifest_reader import AudioManifestR
 class FeatureEngineeringService:
     def __init__(
         self,
-        metadata_path: Path,
         dataset_repository: DatasetRepository,
         audios_repository: AudiosRepository,
         manifest_reader: AudioManifestReader,
         audio_processor: AudioProcessor,
     ):
-        self.metadata_path = metadata_path
         self.dataset_repository = dataset_repository
         self.audios_repository = audios_repository
         self.manifest_reader = manifest_reader
@@ -28,7 +26,7 @@ class FeatureEngineeringService:
         await self.dataset_repository.save_dataset(dataset)
 
     def _generate_dataset(self):
-        metadata = self.manifest_reader.read(str(self.metadata_path))
+        metadata = self.manifest_reader.read()
         all_features = []
         labels = []
 

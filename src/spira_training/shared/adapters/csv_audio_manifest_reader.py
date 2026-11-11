@@ -4,9 +4,6 @@ import pandas as pd
 
 from src.spira_training.shared.core.models.audio_metadata import AudioMetadata
 from src.spira_training.shared.core.models.dataset import Label
-from src.spira_training.shared.adapters.filesystem_path_validator import (
-    FilesystemPathValidator,
-)
 from src.spira_training.shared.ports.audio_manifest_reader import AudioManifestReader
 from src.spira_training.shared.ports.path_validator import PathValidator
 
@@ -14,9 +11,10 @@ from src.spira_training.shared.ports.path_validator import PathValidator
 class CSVAudioManifestReader(AudioManifestReader):
     def __init__(
         self,
-        path_validator: PathValidator = FilesystemPathValidator(),
+        file_path: str,
+        path_validator: PathValidator,
     ) -> None:
-        self._path_validator = path_validator
+        self._validated_path = path_validator.validate_path(file_path)
 
     required_columns = {
         "patient_hash",
@@ -32,9 +30,8 @@ class CSVAudioManifestReader(AudioManifestReader):
         "audio_path",
     }
 
-    def read(self, path: str) -> list[AudioMetadata]:
-        validated_path = self._path_validator.validate_path(path)
-        dataframe = pd.read_csv(validated_path.path)
+    def read(self) -> list[AudioMetadata]:
+        dataframe = pd.read_csv(self._validated_path.path)
         missing_columns = self.required_columns - set(dataframe.columns)
         if missing_columns:
             raise ValueError(
@@ -51,8 +48,12 @@ class CSVAudioManifestReader(AudioManifestReader):
                 )
             audio_path = Path(audio_path_value)
             if not audio_path.is_absolute():
-                audio_path = Path(path).parent / audio_path
+                # The contract assumes that the metadata csv is placed at the same level
+                # as the directory containing the audio samples
+                audio_path = self._validated_path.path.parent / audio_path
             try:
+                # This just assumes every sample with insufficiency above 5 has a
+                # positive label
                 insufficiency = 100 - float(saturation)
                 label = (
                     Label.POSITIVE
