@@ -14,16 +14,16 @@ from src.spira_training.shared.adapters.feature_transformer.mfcc_feature_transfo
 from src.spira_training.shared.adapters.feature_transformer.spectrogram_feature_transformer import (
     SpectrogramFeatureTransformer,
 )
-from src.spira_training.shared.core.audio_processor import AudioProcessor
+from src.spira_training.shared.core.pytorch_audio_processor import PytorchAudioProcessor
 from src.spira_training.shared.ports.feature_transformer import FeatureTransformer
 
 
-def create_audio_processor(
+def create_pytorch_audio_processor(
     config: AudioProcessorConfig, pytorch_tensor_factory: PytorchTensorFactory
-) -> AudioProcessor:
+) -> PytorchAudioProcessor:
     feature_transformer = create_feature_transformer(config)
 
-    return AudioProcessor(
+    return PytorchAudioProcessor(
         feature_transformer=feature_transformer,
         pytorch_tensor_factory=pytorch_tensor_factory,
     )

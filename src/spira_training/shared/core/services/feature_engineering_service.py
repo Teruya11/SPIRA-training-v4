@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from src.spira_training.shared.core.audio_processor import AudioProcessor
 from src.spira_training.shared.core.models.dataset import Dataset
+from src.spira_training.shared.ports.audio_processor import AudioProcessor
 from src.spira_training.shared.ports.audios_repository import AudiosRepository
 from src.spira_training.shared.ports.dataset_repository import DatasetRepository
 from src.spira_training.shared.ports.audio_manifest_reader import AudioManifestReader

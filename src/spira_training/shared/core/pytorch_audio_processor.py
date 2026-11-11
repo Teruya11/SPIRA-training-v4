@@ -4,10 +4,11 @@ from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch
 )
 from src.spira_training.shared.core.models.audio_collection import AudioCollection
 from src.spira_training.shared.core.models.audio import Audio
+from src.spira_training.shared.ports.audio_processor import AudioProcessor
 from src.spira_training.shared.ports.feature_transformer import FeatureTransformer
 
 
-class AudioProcessor:
+class PytorchAudioProcessor(AudioProcessor):
     def __init__(
         self,
         feature_transformer: FeatureTransformer,
