@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, List
+from typing import Any
 
 class RandomGenerator(ABC):
     @abstractmethod
@@ -15,7 +15,7 @@ class RandomGenerator(ABC):
         pass
 
     @abstractmethod
-    def choose_n_elements(self, elements: List[Any], num_elements: int) -> List[Any]:
+    def choose_n_elements(self, elements: list[Any], num_elements: int) -> list[Any]:
         pass
 
     @abstractmethod

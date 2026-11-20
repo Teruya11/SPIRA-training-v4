@@ -1,5 +1,3 @@
-from typing import List
-
 from src.spira_training.shared.adapters.pytorch.models.pytorch_label import PytorchLabel
 
 from src.spira_training.shared.adapters.pytorch.models.pytorch_tensor import (
@@ -9,7 +7,7 @@ import torch.utils.data
 
 
 class PytorchDataset(torch.utils.data.Dataset):
-    def __init__(self, features: List[PytorchTensor], labels: List[PytorchLabel]):
+    def __init__(self, features: list[PytorchTensor], labels: list[PytorchLabel]):
         self.features = features
         self.labels = labels
 
