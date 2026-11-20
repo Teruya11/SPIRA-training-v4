@@ -4,7 +4,7 @@ from pathlib import Path
 from src.spira_training.apps.feature_engineering.configs.feature_engineering_config import (
     FeatureEngineeringConfig,
 )
-from src.spira_training.shared.adapters.audios_repository import PytorchAudiosRepository
+from src.spira_training.shared.adapters.pytorch_audios_repository import PytorchAudiosRepository
 from src.spira_training.shared.adapters.csv_audio_manifest_reader import (
     CSVAudioManifestReader,
 )
