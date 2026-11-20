@@ -1,10 +1,11 @@
+import torch
+from torch.optim.optimizer import Optimizer
+
 from spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_scheduler import (
     PytorchScheduler,
 )
 
 from .simple_pytorch_optimizer import SimplePytorchOptimizer
-import torch
-from torch.optim.optimizer import Optimizer
 
 
 class LrPytorchScheduler(torch.optim.lr_scheduler.LRScheduler):

@@ -1,10 +1,10 @@
 import torchaudio
 
-from src.spira_training.shared.core.models.audio import Audio
-from src.spira_training.shared.core.models.wav import Wav
 from src.spira_training.shared.adapters.filesystem_path_validator import (
     FilesystemPathValidator,
 )
+from src.spira_training.shared.core.models.audio import Audio
+from src.spira_training.shared.core.models.wav import Wav
 from src.spira_training.shared.ports.audios_repository import AudiosRepository
 from src.spira_training.shared.ports.path_validator import PathValidator
 

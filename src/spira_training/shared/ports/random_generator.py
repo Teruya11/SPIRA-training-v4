@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
+
 class RandomGenerator(ABC):
     @abstractmethod
     def apply_random_seed(self) -> None:
