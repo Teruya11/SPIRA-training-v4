@@ -2,7 +2,6 @@ from functools import reduce
 
 import torch
 from torchaudio.transforms import Resample
-from typing import List
 
 
 class Wav:
@@ -34,7 +33,7 @@ class Wav:
     def __getattr__(self, name):
         return getattr(self.tensor, name)
 
-def concatenate_wavs(wavs: List[Wav]) -> Wav:
+def concatenate_wavs(wavs: list[Wav]) -> Wav:
     if not wavs:
         raise ValueError("At least one wav is required")
 

@@ -1,5 +1,3 @@
-from typing import List
-
 from spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_scheduler import (
     PytorchScheduler,
 )
@@ -27,7 +25,7 @@ class NoamLRPytorchScheduler(PytorchScheduler):
             optimizer=pytorch_optimizer_wrapper.torch_optimizer
         )
 
-    def get_lr(self) -> List[float]:
+    def get_lr(self) -> list[float]:
         step = max(self.scheduler.last_epoch, 1)
         return [
             base_lr

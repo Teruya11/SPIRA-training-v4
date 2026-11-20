@@ -4,7 +4,7 @@ from pathlib import Path
 from src.spira_training.apps.feature_engineering.configs.feature_engineering_config import (
     FeatureEngineeringConfig,
 )
-from src.spira_training.shared.adapters.audios_repository import AudiosRepository
+from src.spira_training.shared.adapters.audios_repository import PytorchAudiosRepository
 from src.spira_training.shared.adapters.csv_audio_manifest_reader import (
     CSVAudioManifestReader,
 )
@@ -43,7 +43,7 @@ async def main():
     config = make_config(path_validator=path_validator)
 
     dataset_repository = PytorchDatasetRepository(config.dataset_path, path_validator)
-    audios_repository = AudiosRepository(path_validator=path_validator)
+    audios_repository = PytorchAudiosRepository(path_validator=path_validator)
     manifest_reader = CSVAudioManifestReader(config.audio.dataset_paths.metadata_csv, path_validator)
 
     pytorch_audio_factory = SimplePytorchTensorFactory()
