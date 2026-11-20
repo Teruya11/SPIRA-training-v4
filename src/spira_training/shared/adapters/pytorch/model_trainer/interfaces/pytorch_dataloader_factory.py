@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
-from .pytorch_dataloader import PytorchDataloader
 from src.spira_training.shared.core.models.dataset import Dataset
+
+from .pytorch_dataloader import PytorchDataloader
 
 
 class PytorchDataloaderFactory(ABC):

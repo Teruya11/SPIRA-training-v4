@@ -1,9 +1,8 @@
-from src.spira_training.shared.adapters.pytorch.models.pytorch_tensor import (
-    PytorchTensor,
-)
-
 from src.spira_training.shared.adapters.pytorch.models.pytorch_label import (
     PytorchLabel,
+)
+from src.spira_training.shared.adapters.pytorch.models.pytorch_tensor import (
+    PytorchTensor,
 )
 
 

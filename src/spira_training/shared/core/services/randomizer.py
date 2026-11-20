@@ -1,5 +1,6 @@
-import numpy as np
 from typing import Self
+
+import numpy as np
 
 from src.spira_training.shared.core.interfaces.random import Random
 

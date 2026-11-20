@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
+
 from pydantic import BaseModel
-import torch.nn as nn
+from torch import nn
 
 
 class PytorchCnnConfig(BaseModel):

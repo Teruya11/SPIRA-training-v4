@@ -1,26 +1,20 @@
-from typing import Sequence
+from collections.abc import Sequence
 
 from src.spira_training.shared.adapters.pytorch.models.pytorch_batch import (
     PytorchBatch,
 )
-
-
-from src.spira_training.shared.core.models.trainable_model import TrainableModel
+from src.spira_training.shared.core.models.dataset import Dataset
 from src.spira_training.shared.core.models.event import TestLossEvent, TrainLossEvent
-
+from src.spira_training.shared.core.models.step import Step
+from src.spira_training.shared.core.models.trainable_model import TrainableModel
+from src.spira_training.shared.ports.model_trainer import ModelTrainer
 from src.spira_training.shared.ports.train_logger import TrainLogger
 
-
-from src.spira_training.shared.core.models.dataset import Dataset
-from src.spira_training.shared.core.models.step import Step
-
-from .interfaces.pytorch_dataloader_factory import PytorchDataloaderFactory
-from .interfaces.pytorch_optimizer import PytorchOptimizer
-from .interfaces.pytorch_loss_calculator import PytorchLossCalculator
-from .interfaces.pytorch_scheduler import PytorchScheduler
 from .interfaces.pytorch_checkpoint_manager import Checkpoint, PytorchCheckpointManager
-
-from src.spira_training.shared.ports.model_trainer import ModelTrainer
+from .interfaces.pytorch_dataloader_factory import PytorchDataloaderFactory
+from .interfaces.pytorch_loss_calculator import PytorchLossCalculator
+from .interfaces.pytorch_optimizer import PytorchOptimizer
+from .interfaces.pytorch_scheduler import PytorchScheduler
 
 
 class PytorchModelTrainer(ModelTrainer):

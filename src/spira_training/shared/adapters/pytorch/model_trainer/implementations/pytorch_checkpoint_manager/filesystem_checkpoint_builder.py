@@ -8,12 +8,11 @@ from spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorc
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_optimizer import (
     PytorchOptimizer,
 )
-
-from src.spira_training.shared.ports.path_validator import PathValidator
-from src.spira_training.shared.core.models.trainable_model import TrainableModel
 from src.spira_training.shared.core.models.loss import Loss
 from src.spira_training.shared.core.models.step import Step
+from src.spira_training.shared.core.models.trainable_model import TrainableModel
 from src.spira_training.shared.core.models.valid_path import ValidPath
+from src.spira_training.shared.ports.path_validator import PathValidator
 
 
 class FileSystemCheckpointBuilder:

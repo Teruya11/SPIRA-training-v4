@@ -1,7 +1,6 @@
-import torch
-
-
 from typing import NewType
+
+import torch
 
 __all__ = ["PytorchLabel"]
 

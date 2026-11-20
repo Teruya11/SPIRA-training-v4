@@ -1,9 +1,10 @@
 import torch
+from torch import nn
+
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_cnn_builder import (
     PytorchCnnBuilder,
     PytorchCnnConfig,
 )
-import torch.nn as nn
 
 
 class PaddedFeaturesPytorchCnnBuilder(PytorchCnnBuilder):

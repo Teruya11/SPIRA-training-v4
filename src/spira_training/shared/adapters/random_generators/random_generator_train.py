@@ -1,4 +1,6 @@
-from src.spira_training.shared.adapters.random_generators.base_random_generator import BaseRandomGenerator
+from src.spira_training.shared.adapters.random_generators.base_random_generator import (
+    BaseRandomGenerator,
+)
 
 
 class RandomGeneratorTrain(BaseRandomGenerator):

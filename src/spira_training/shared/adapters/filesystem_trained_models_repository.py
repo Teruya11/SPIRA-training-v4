@@ -11,6 +11,7 @@ from src.spira_training.shared.ports.trained_models_repository import (
     TrainedModelsRepository,
 )
 
+
 class FilesystemTrainedModelsRepository(TrainedModelsRepository):
     def __init__(
         self,

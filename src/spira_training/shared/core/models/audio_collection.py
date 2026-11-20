@@ -1,4 +1,4 @@
-from typing import Iterator
+from collections.abc import Iterator
 
 from src.spira_training.shared.core.models.audio import Audio
 

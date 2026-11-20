@@ -1,5 +1,10 @@
+import torch
+
 from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorch_model.inner_torch_model import (
     InnerTorchModel,
+)
+from src.spira_training.shared.adapters.pytorch.models.pytorch_label import (
+    PytorchLabel,
 )
 from src.spira_training.shared.adapters.pytorch.models.pytorch_parameter import (
     PytorchParameter,
@@ -7,13 +12,7 @@ from src.spira_training.shared.adapters.pytorch.models.pytorch_parameter import 
 from src.spira_training.shared.adapters.pytorch.models.pytorch_tensor import (
     PytorchTensor,
 )
-from src.spira_training.shared.adapters.pytorch.models.pytorch_label import (
-    PytorchLabel,
-)
-
 from src.spira_training.shared.core.models.trainable_model import TrainableModel
-
-import torch
 
 
 class SimplePytorchModel(TrainableModel):

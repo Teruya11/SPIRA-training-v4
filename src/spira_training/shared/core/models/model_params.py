@@ -1,5 +1,5 @@
-from typing_extensions import TypeVar
 from pydantic import BaseModel
+from typing_extensions import TypeVar
 
 
 class ModelParams(BaseModel): ...

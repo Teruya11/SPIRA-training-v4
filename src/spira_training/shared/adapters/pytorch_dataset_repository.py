@@ -2,12 +2,12 @@ from pathlib import Path
 
 import torch
 
-from src.spira_training.shared.core.models.audio import Audio
-from src.spira_training.shared.core.models.dataset import Dataset, Label
-from src.spira_training.shared.core.models.wav import Wav
 from src.spira_training.shared.adapters.filesystem_path_validator import (
     FilesystemPathValidator,
 )
+from src.spira_training.shared.core.models.audio import Audio
+from src.spira_training.shared.core.models.dataset import Dataset, Label
+from src.spira_training.shared.core.models.wav import Wav
 from src.spira_training.shared.ports.dataset_repository import DatasetRepository
 from src.spira_training.shared.ports.path_validator import PathValidator
 
@@ -63,4 +63,3 @@ class PytorchDatasetRepository(DatasetRepository):
             self._path_validator.validate_path(resolved_path)
         except Exception as error:
             raise IOError(f"Failed to save dataset to {resolved_path}: {error}") from error
-

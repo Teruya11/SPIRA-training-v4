@@ -1,5 +1,7 @@
 from typing import Literal
+
 from pydantic import BaseModel
+
 from src.spira_training.shared.core.models.enum import BaseEnum
 from src.spira_training.shared.core.models.loss import Loss
 

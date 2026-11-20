@@ -1,9 +1,6 @@
-from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_tensor_factory import (
-    PytorchTensorFactory,
-)
 from src.spira_training.apps.feature_engineering.configs.audio_processor_config import (
-    AudioProcessorType,
     AudioProcessorConfig,
+    AudioProcessorType,
 )
 from src.spira_training.shared.adapters.feature_transformer.melspectrogram_feature_transformer import (
     MelspectrogramFeatureTransformer,
@@ -13,6 +10,9 @@ from src.spira_training.shared.adapters.feature_transformer.mfcc_feature_transfo
 )
 from src.spira_training.shared.adapters.feature_transformer.spectrogram_feature_transformer import (
     SpectrogramFeatureTransformer,
+)
+from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_tensor_factory import (
+    PytorchTensorFactory,
 )
 from src.spira_training.shared.core.pytorch_audio_processor import PytorchAudioProcessor
 from src.spira_training.shared.ports.feature_transformer import FeatureTransformer
