@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Sequence
+from collections.abc import Sequence
 
-from src.spira_training.shared.core.models.loss import Loss
 from src.spira_training.shared.adapters.pytorch.models.pytorch_label import (
     PytorchLabel,
 )
+from src.spira_training.shared.core.models.loss import Loss
 
 
 class PytorchLossCalculator(ABC):

@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Self
+
 import numpy as np
+
 
 class Random(ABC):
     def __init__(self, seed: int):

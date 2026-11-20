@@ -1,12 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import cast
+from typing import Self, cast
+
+from torch import nn
+from torch.nn.functional import binary_cross_entropy
 
 from spira_training.shared.adapters.pytorch.models.pytorch_label import PytorchLabel
 from spira_training.shared.adapters.pytorch.models.pytorch_tensor import PytorchTensor
-import torch.nn as nn
-from torch.nn.functional import binary_cross_entropy
-from typing_extensions import Self
-
 
 __all__ = ["SingleLossCalculator", "BCELossCalculator", "ClipBCELossCalculator"]
 

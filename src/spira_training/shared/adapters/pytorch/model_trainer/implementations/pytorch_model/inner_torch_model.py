@@ -1,12 +1,12 @@
+import torch
+from torch import nn
+
 from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorch_model.mish import (
     Mish,
 )
-
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_cnn_builder import (
     PytorchCnnBuilder,
 )
-import torch
-import torch.nn as nn
 
 
 class InnerTorchModel(nn.Module):

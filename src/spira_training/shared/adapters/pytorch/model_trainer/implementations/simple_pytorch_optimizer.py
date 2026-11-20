@@ -1,8 +1,8 @@
+from torch.optim.optimizer import Optimizer
+
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_optimizer import (
     PytorchOptimizer,
 )
-import torch
-from torch.optim.optimizer import Optimizer
 
 
 class SimplePytorchOptimizer(PytorchOptimizer):

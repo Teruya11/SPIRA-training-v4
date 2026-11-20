@@ -1,7 +1,7 @@
 from enum import Enum
-from typing import ClassVar
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
+
 
 class AudioProcessorType(str, Enum):
     MFCC = "mfcc"

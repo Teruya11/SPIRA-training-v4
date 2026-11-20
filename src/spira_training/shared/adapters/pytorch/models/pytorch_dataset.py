@@ -1,9 +1,9 @@
-from src.spira_training.shared.adapters.pytorch.models.pytorch_label import PytorchLabel
+import torch.utils.data
 
+from src.spira_training.shared.adapters.pytorch.models.pytorch_label import PytorchLabel
 from src.spira_training.shared.adapters.pytorch.models.pytorch_tensor import (
     PytorchTensor,
 )
-import torch.utils.data
 
 
 class PytorchDataset(torch.utils.data.Dataset):

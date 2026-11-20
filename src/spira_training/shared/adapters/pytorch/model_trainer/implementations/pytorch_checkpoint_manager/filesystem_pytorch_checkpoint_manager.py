@@ -1,24 +1,21 @@
 from typing import Optional
 
+from spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorch_checkpoint_manager.filesystem_checkpoint import (
+    FilesystemCheckpoint,
+)
+from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorch_checkpoint_manager.filesystem_checkpoint_builder import (
+    FileSystemCheckpointBuilder,
+)
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_checkpoint_manager import (
     Checkpoint,
     PytorchCheckpointManager,
 )
-
-from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorch_checkpoint_manager.filesystem_checkpoint_builder import (
-    FileSystemCheckpointBuilder,
-)
-
-from spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorch_checkpoint_manager.filesystem_checkpoint import (
-    FilesystemCheckpoint,
-)
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_optimizer import (
     PytorchOptimizer,
 )
-
-from src.spira_training.shared.core.models.trainable_model import TrainableModel
 from src.spira_training.shared.core.models.loss import Loss
 from src.spira_training.shared.core.models.step import Step
+from src.spira_training.shared.core.models.trainable_model import TrainableModel
 
 
 class FilesystemPytorchCheckpointManager(PytorchCheckpointManager):

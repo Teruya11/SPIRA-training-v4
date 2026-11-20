@@ -1,24 +1,23 @@
 from typing import Literal
 
-from src.spira_training.shared.adapters.pytorch.models.pytorch_dataset import (
-    PytorchDataset,
-)
 import torch
 
-from src.spira_training.shared.adapters.pytorch.models.pytorch_label import PytorchLabel
-
-from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_tensor_factory import (
-    PytorchTensorFactory,
-)
-
-from .simple_pytorch_dataloader import SimplePytorchDataloader
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_dataloader import (
     PytorchDataloader,
 )
-from src.spira_training.shared.core.models.dataset import Dataset
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_dataloader_factory import (
     PytorchDataloaderFactory,
 )
+from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_tensor_factory import (
+    PytorchTensorFactory,
+)
+from src.spira_training.shared.adapters.pytorch.models.pytorch_dataset import (
+    PytorchDataset,
+)
+from src.spira_training.shared.adapters.pytorch.models.pytorch_label import PytorchLabel
+from src.spira_training.shared.core.models.dataset import Dataset
+
+from .simple_pytorch_dataloader import SimplePytorchDataloader
 
 PytorchDataloaderFactoryType = Literal["train", "test"]
 

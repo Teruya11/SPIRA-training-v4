@@ -1,18 +1,17 @@
-from typing import Literal, Sequence
+from collections.abc import Sequence
+from typing import Literal
 
-from src.spira_training.shared.adapters.pytorch.models.pytorch_dataset import (
-    PytorchDataset,
-)
-
-from src.spira_training.shared.adapters.pytorch.models.pytorch_batch import (
-    PytorchBatch,
-)
+from torch.utils.data import DataLoader as PytorchDataLoader
 
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_dataloader import (
     PytorchDataloader,
 )
-from torch.utils.data import DataLoader as PytorchDataLoader
-
+from src.spira_training.shared.adapters.pytorch.models.pytorch_batch import (
+    PytorchBatch,
+)
+from src.spira_training.shared.adapters.pytorch.models.pytorch_dataset import (
+    PytorchDataset,
+)
 
 PytorchDataloaderType = Literal["train", "test"]
 

@@ -1,9 +1,14 @@
 from pydantic import BaseModel
 
 from src.spira_training.apps.feature_engineering.configs.audio_config import AudioConfig
-from src.spira_training.apps.feature_engineering.configs.audio_processor_config import AudioProcessorConfig
-from src.spira_training.apps.feature_engineering.configs.audio_feature_transformer_config import AudioFeatureTransformerConfig
+from src.spira_training.apps.feature_engineering.configs.audio_feature_transformer_config import (
+    AudioFeatureTransformerConfig,
+)
+from src.spira_training.apps.feature_engineering.configs.audio_processor_config import (
+    AudioProcessorConfig,
+)
 from src.spira_training.shared.core.models.path import Path
+
 
 class FeatureEngineeringConfig(BaseModel):
     audio: AudioConfig

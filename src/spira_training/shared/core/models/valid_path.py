@@ -1,5 +1,7 @@
 from pathlib import Path
+
 from pydantic import BaseModel
+
 
 class ValidPath(BaseModel):
     path: Path

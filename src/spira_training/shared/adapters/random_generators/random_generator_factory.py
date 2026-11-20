@@ -1,5 +1,9 @@
-from src.spira_training.shared.adapters.random_generators.random_generator_test import RandomGeneratorTest
-from src.spira_training.shared.adapters.random_generators.random_generator_train import RandomGeneratorTrain
+from src.spira_training.shared.adapters.random_generators.random_generator_test import (
+    RandomGeneratorTest,
+)
+from src.spira_training.shared.adapters.random_generators.random_generator_train import (
+    RandomGeneratorTrain,
+)
 from src.spira_training.shared.core.models.operation_mode import OperationMode
 from src.spira_training.shared.ports.random_generator import RandomGenerator
 

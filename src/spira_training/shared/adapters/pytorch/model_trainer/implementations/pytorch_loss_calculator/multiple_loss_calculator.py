@@ -1,14 +1,18 @@
-from typing import Sequence
-from spira_training.shared.adapters.pytorch.models.pytorch_label import PytorchLabel
-from spira_training.shared.adapters.pytorch.models.pytorch_tensor import PytorchTensor
-from src.spira_training.shared.core.models.loss import Loss
+from collections.abc import Sequence
+
 import torch
+
 from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.pytorch_loss_calculator.single_loss_calculator import (
     SingleLossCalculator,
 )
 from src.spira_training.shared.adapters.pytorch.model_trainer.interfaces.pytorch_loss_calculator import (
     PytorchLossCalculator,
 )
+from src.spira_training.shared.adapters.pytorch.models.pytorch_label import PytorchLabel
+from src.spira_training.shared.adapters.pytorch.models.pytorch_tensor import (
+    PytorchTensor,
+)
+from src.spira_training.shared.core.models.loss import Loss
 
 
 class AverageMultipleLossCalculator(PytorchLossCalculator):

@@ -1,6 +1,8 @@
 import torchaudio.transforms as transforms
 
-from src.spira_training.apps.feature_engineering.configs.audio_processor_config import MFCCAudioProcessorConfig
+from src.spira_training.apps.feature_engineering.configs.audio_processor_config import (
+    MFCCAudioProcessorConfig,
+)
 from src.spira_training.shared.core.models.wav import Wav
 from src.spira_training.shared.ports.feature_transformer import FeatureTransformer
 

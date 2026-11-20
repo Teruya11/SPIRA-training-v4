@@ -1,7 +1,7 @@
 import torch
 
-from src.spira_training.shared.core.models.trainable_model import TrainableModel
 from src.spira_training.shared.core.models.dataset import Dataset
+from src.spira_training.shared.core.models.trainable_model import TrainableModel
 from src.spira_training.shared.ports.model_trainer import ModelTrainer
 
 
