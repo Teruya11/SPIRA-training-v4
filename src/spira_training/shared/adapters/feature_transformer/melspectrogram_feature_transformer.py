@@ -19,4 +19,4 @@ class MelspectrogramFeatureTransformer(FeatureTransformer):
         )
 
     def transform(self, wav: Wav) -> Wav:
-        return self.melspectrogram(wav)
+        return Wav(self.melspectrogram(wav))

@@ -1,4 +1,4 @@
-import torchaudio.transforms as transforms
+from torchaudio import transforms
 
 from src.spira_training.apps.feature_engineering.configs.audio_processor_config import (
     MFCCAudioProcessorConfig,
@@ -22,4 +22,4 @@ class MFCCFeatureTransformer(FeatureTransformer):
         )
 
     def transform(self, wav: Wav) -> Wav:
-        return self.mfcc(wav)
+        return Wav(self.mfcc(wav))

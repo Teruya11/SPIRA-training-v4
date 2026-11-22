@@ -1,10 +1,5 @@
 from src.spira_training.shared.core.models.audio import Audio
-from src.spira_training.shared.core.models.enum import BaseEnum
-
-
-class Label(BaseEnum):
-    POSITIVE = 1
-    NEGATIVE = 0
+from src.spira_training.shared.core.models.audio_metadata import Label
 
 
 class Dataset:

@@ -1,7 +1,4 @@
-from pathlib import Path
-
 from src.spira_training.shared.core.models.dataset import Dataset
-from src.spira_training.shared.ports.audio_manifest_reader import AudioManifestReader
 from src.spira_training.shared.ports.audio_processor import AudioProcessor
 from src.spira_training.shared.ports.audios_repository import AudiosRepository
 from src.spira_training.shared.ports.dataset_repository import DatasetRepository
@@ -12,12 +9,10 @@ class FeatureEngineeringService:
         self,
         dataset_repository: DatasetRepository,
         audios_repository: AudiosRepository,
-        manifest_reader: AudioManifestReader,
         audio_processor: AudioProcessor,
     ):
         self.dataset_repository = dataset_repository
         self.audios_repository = audios_repository
-        self.manifest_reader = manifest_reader
         self.audio_processor = audio_processor
 
     async def execute(self) -> None:
@@ -26,13 +21,13 @@ class FeatureEngineeringService:
         await self.dataset_repository.save_dataset(dataset)
 
     def _generate_dataset(self):
-        metadata = self.manifest_reader.read()
         all_features = []
         labels = []
 
-        for record in metadata:
-            audio = self.audios_repository.get_audio(str(record.audio_path))
-            all_features.append(self.audio_processor.process_audio(audio))
-            labels.append(record.label)
+        for audio, metadata in self.audios_repository.get_audios():
+            processed_audio = self.audio_processor.process_audio(audio)
+
+            all_features.append(processed_audio)
+            labels.append(metadata.label)
 
         return Dataset(features=all_features, labels=labels)

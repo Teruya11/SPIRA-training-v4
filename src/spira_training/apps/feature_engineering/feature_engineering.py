@@ -29,8 +29,8 @@ from src.spira_training.shared.ports.path_validator import PathValidator
 
 
 def make_config(
+    path_validator: PathValidator,
     config_path: str | Path | None = None,
-    path_validator: PathValidator = FilesystemPathValidator(),
 ) -> FeatureEngineeringConfig:
     if config_path is None:
         config_path = Path(__file__).resolve().parents[4] / "config.json"
@@ -44,13 +44,15 @@ def make_config(
 
 async def main():
     path_validator = FilesystemPathValidator()
-    config = make_config(path_validator=path_validator)
 
-    dataset_repository = PytorchDatasetRepository(config.dataset_path, path_validator)
-    audios_repository = PytorchAudiosRepository(path_validator=path_validator)
+    config = make_config(path_validator=path_validator)
     manifest_reader = CSVAudioManifestReader(config.audio.dataset_paths.metadata_csv, path_validator)
 
     pytorch_audio_factory = SimplePytorchTensorFactory()
+
+    # Service Adapters
+    dataset_repository = PytorchDatasetRepository(config.dataset_path, path_validator)
+    audios_repository = PytorchAudiosRepository(manifest_reader, path_validator)
     audio_processor = create_pytorch_audio_processor(
         config.audio_processor, pytorch_audio_factory
     )
@@ -58,7 +60,6 @@ async def main():
     service = FeatureEngineeringService(
         dataset_repository=dataset_repository,
         audios_repository=audios_repository,
-        manifest_reader=manifest_reader,
         audio_processor=audio_processor,
     )
 

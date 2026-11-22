@@ -20,7 +20,7 @@ class PytorchAudioProcessor(AudioProcessor):
     def process_audio(self, audio: Audio) -> Audio:
         pytorch_tensor = self.pytorch_tensor_factory.create_tensor_from_audio(audio)
         feature_wav = self.feature_transformer.transform(Wav(pytorch_tensor))
-        return Audio(wav=Wav(feature_wav), sample_rate=audio.sample_rate)
+        return Audio(feature_wav, audio.sample_rate)
 
     def process_audios(self, audios: AudioCollection) -> AudioCollection:
         audio_list = [self.process_audio(audio) for audio in audios]

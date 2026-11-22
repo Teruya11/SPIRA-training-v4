@@ -17,4 +17,4 @@ class SpectrogramFeatureTransformer(FeatureTransformer):
         )
 
     def transform(self, wav: Wav) -> Wav:
-        return self.spectrogram(wav)
+        return Wav(self.spectrogram(wav))
