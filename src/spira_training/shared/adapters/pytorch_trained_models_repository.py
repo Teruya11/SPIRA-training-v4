@@ -12,7 +12,7 @@ from src.spira_training.shared.ports.trained_models_repository import (
 )
 
 
-class FilesystemTrainedModelsRepository(TrainedModelsRepository):
+class PytorchTrainedModelsRepository(TrainedModelsRepository):
     def __init__(
         self,
         model_path: Path,

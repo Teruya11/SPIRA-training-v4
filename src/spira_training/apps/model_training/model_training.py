@@ -8,9 +8,6 @@ from src.spira_training.shared.adapters.debug_train_logger import DebugTrainLogg
 from src.spira_training.shared.adapters.filesystem_path_validator import (
     FilesystemPathValidator,
 )
-from src.spira_training.shared.adapters.filesystem_trained_models_repository import (
-    FilesystemTrainedModelsRepository,
-)
 from src.spira_training.shared.adapters.pytorch.model_trainer.implementations.noam_lr_pytorch_scheduler import (
     NoamLRPytorchScheduler,
 )
@@ -52,6 +49,9 @@ from src.spira_training.shared.adapters.pytorch.model_trainer.pytorch_model_trai
 )
 from src.spira_training.shared.adapters.pytorch_dataset_repository import (
     PytorchDatasetRepository,
+)
+from src.spira_training.shared.adapters.pytorch_trained_models_repository import (
+    PytorchTrainedModelsRepository,
 )
 from src.spira_training.shared.adapters.sk_dataset_splitter import SkDatasetSplitter
 from src.spira_training.shared.core.models.path import Path
@@ -127,7 +127,7 @@ async def main():
         scheduler=scheduler,
         checkpoint_manager=checkpoint_manager,
     )
-    trained_models_repository = FilesystemTrainedModelsRepository(
+    trained_models_repository = PytorchTrainedModelsRepository(
         model_path=config.trained_model_path
     )
 
